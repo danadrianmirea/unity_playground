@@ -32,7 +32,7 @@ public class GridSpawner : MonoBehaviour
             Debug.LogError("Prefab reference instance not assigned.");
             return;
         }
-        
+
         totalSpawned = 0;
 
         Vector3 size = GetReferenceSize();
@@ -66,10 +66,11 @@ public class GridSpawner : MonoBehaviour
             spacing.z * (countZ - 1)
         );
 
+        // Center X and Z on GameObject, keep Y centered in yRange
         Vector3 startPos = new Vector3(
-            xRange.x + ((xRange.y - xRange.x) - totalGridSize.x) / 2f,
+            transform.position.x - totalGridSize.x / 2f,
             yRange.x + ((yRange.y - yRange.x) - totalGridSize.y) / 2f,
-            zRange.x + ((zRange.y - zRange.x) - totalGridSize.z) / 2f
+            transform.position.z - totalGridSize.z / 2f
         );
 
         for (int x = 0; x < countX; x++)
