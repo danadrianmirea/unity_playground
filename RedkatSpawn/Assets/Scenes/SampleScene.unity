@@ -514,6 +514,7 @@ GameObject:
   - component: {fileID: 1418385686}
   - component: {fileID: 1418385688}
   - component: {fileID: 1418385687}
+  - component: {fileID: 1418385689}
   m_Layer: 5
   m_Name: crosshair
   m_TagString: Untagged
@@ -538,7 +539,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6, y: 6}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1418385687
 MonoBehaviour:
@@ -578,6 +579,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418385685}
   m_CullTransparentMesh: 1
+--- !u!114 &1418385689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418385685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5673320d9edae2439bd7a1772ac368c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dotImage: {fileID: 1418385687}
+  transparency: 24.8
 --- !u!1001 &1427368532
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1040,8 +1055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6d3a997c19be04b92559b9cd65ab61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 100
-  moveSpeed: 10
+  mouseSensitivity: 250
+  moveSpeed: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
