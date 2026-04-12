@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float mouseSensitivity = 200f;
     public float moveSpeed = 10f;
+    public float shiftSpeedBoost = 3.0f;
 
     bool freeLook = false;
 
@@ -63,6 +64,12 @@ public class PlayerMovement : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
+        float speedBoost = 1.0f;
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            speedBoost = shiftSpeedBoost;
+        }
 
         Vector3 move =
             transform.right * x +
@@ -74,6 +81,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.C))
             move -= Vector3.up;
 
-        transform.position += move * moveSpeed * Time.deltaTime;
+        transform.position += move * moveSpeed * speedBoost * Time.deltaTime;
     }
 }
