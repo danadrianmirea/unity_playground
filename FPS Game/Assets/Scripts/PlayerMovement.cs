@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float shiftSpeedBoost = 3.0f;
 
     bool freeLook = false;
+    private float xRotation = 0f;
+    private float yRotation = 0f;
 
     void Start()
     {
@@ -26,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
         {
             freeLook = true;
             SetCursor(true);
+            // Sync internal angles to the current camera rotation to avoid any snap
+            Vector3 euler = transform.eulerAngles;
+            xRotation = euler.x;
+            yRotation = euler.y;
         }
 
         if (Input.GetMouseButtonUp(1)) // Right click released
@@ -37,27 +43,23 @@ public class PlayerMovement : MonoBehaviour
 
     void SetCursor(bool locked)
     {
-        if (locked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !locked;
     }
 
     void HandleMouseLook()
     {
         if (!freeLook) return;
 
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // Using raw mouse delta – remove Time.deltaTime for frame‑rate independent look
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity; 
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+            
+        yRotation += mouseX;
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f); // prevent flipping
 
-        transform.Rotate(Vector3.up * mouseX, Space.World);
-        transform.Rotate(Vector3.right * -mouseY, Space.Self);
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
     void HandleMovement()
@@ -67,19 +69,12 @@ public class PlayerMovement : MonoBehaviour
         float speedBoost = 1.0f;
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
             speedBoost = shiftSpeedBoost;
-        }
 
-        Vector3 move =
-            transform.right * x +
-            transform.forward * z;
+        Vector3 move = transform.right * x + transform.forward * z;
 
-        if (Input.GetKey(KeyCode.Space))
-            move += Vector3.up;
-
-        if (Input.GetKey(KeyCode.C))
-            move -= Vector3.up;
+        if (Input.GetKey(KeyCode.Space))  move += Vector3.up;
+        if (Input.GetKey(KeyCode.C))      move -= Vector3.up;
 
         transform.position += move * moveSpeed * speedBoost * Time.deltaTime;
     }
