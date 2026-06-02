@@ -249,6 +249,12 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -9.81
   mouseSensitivity: 2
+  fireForce: 10
+  fireRange: 1000
+  fireRate: 0.2
+  fireLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!143 &163231790
 CharacterController:
   m_ObjectHideFlags: 0
