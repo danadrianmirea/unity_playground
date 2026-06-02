@@ -9,11 +9,10 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float mouseSensitivity = 200f;
 
-    // Firing settings
-    public float fireForce = 500f;          // Force applied to hit rigidbody
-    public float fireRange = 100f;          // Maximum distance of the ray
-    public float fireRate = 0.2f;           // Seconds between shots
-    public LayerMask fireLayerMask = -1;    // Which layers can be hit (-1 = all layers)
+    public float fireForce = 500f;
+    public float fireRange = 100f;
+    public float fireRate = 0.2f;
+    public LayerMask fireLayerMask = -1;
 
     private bool freeLook = false;
     private float xRotation;
@@ -41,14 +40,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // ----- FIRE (only when freelook is active) -----
         if (freeLook && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
             Fire();
         }
 
-        // ----- FREELOOK TOGGLE / ESCAPE -----
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             freeLook = false;
@@ -61,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
             SetCursor(true);
         }
 
-        // ----- MOUSE LOOK (only when freelook is active) -----
         if (freeLook)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -75,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
             cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
 
-        // ----- MOVEMENT (only when freelook is active) -----
         Vector3 move = Vector3.zero;
 
         if (freeLook)
@@ -86,7 +81,6 @@ public class PlayerMovement : MonoBehaviour
             move = (transform.right * x + transform.forward * z) * speed;
         }
 
-        // ----- JUMP AND GRAVITY -----
         if (controller.isGrounded && verticalVelocity < 0)
             verticalVelocity = -2f;
 
@@ -106,19 +100,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, fireRange, fireLayerMask))
         {
-            // Optional: draw debug line to visualize the shot
             Debug.DrawLine(cam.position, hit.point, Color.red, 0.5f);
 
             Rigidbody rb = hit.rigidbody;
             if (rb != null)
             {
-                // Apply force at the point of impact for realism
                 rb.AddForceAtPosition(ray.direction * fireForce, hit.point, ForceMode.Impulse);
             }
         }
         else
         {
-            // Optional: draw line showing the full range
             Debug.DrawRay(cam.position, cam.forward * fireRange, Color.white, 0.2f);
         }
     }
