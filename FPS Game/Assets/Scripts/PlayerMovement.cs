@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float mouseSensitivity = 200f;
 
-    public float fireForce = 500f;
-    public float fireRange = 100f;
+    public float fireForce = 10f;
+    public float fireRange = 1000f;
     public float fireRate = 0.2f;
     public LayerMask fireLayerMask = -1;
 
